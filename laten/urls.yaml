@@ -1,0 +1,11 @@
+- name: Google Search Page
+  rules:
+  - ensure-content: Google
+  - ensure-content: I'm feeling lucky
+  url: https://www.google.com
+- name: Canonical's LTD landing page
+  rules:
+  - ensure-content: Copyright
+  - ensure-content: Canonical
+  - ensure-content: LTD
+  url: https://www.canonical.com

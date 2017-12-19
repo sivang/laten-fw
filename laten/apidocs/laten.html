@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "DTD/xhtml1-strict.dtd">
+<html>
+  <head>
+    <title>laten : API documentation</title>
+
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <link rel="stylesheet" href="bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="apidocs.css" type="text/css" />
+  </head>
+  <body>
+
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="index.html">
+            laten API Documentation
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <div id="showPrivate">
+      <button class="btn btn-link" onclick="togglePrivate()">Toggle Private API</button>
+    </div>
+
+    <div class="container">
+
+      <div class="page-header">
+        <h1 class="package"><code>laten</code> <small>package documentation</small></h1>
+
+        <span id="partOf">
+          
+          
+          
+        </span>
+      </div>
+
+      <div class="extrasDocstring">
+        
+      </div>
+
+      <div class="moduleDocstring">
+        <pre>Laten Micro Web Monitor Copyright (c) 2018 Sivan Grünberg &lt;sivan@vitakka.co&gt;
+
+Laten is released under the MIT license.
+
+Laten:
+
+    - A minimalistic, "micro" web site monitor implemented with Celery, RabbitMQ and MongoDB.
+    - Minimalistically coded as well.
+    - Production Ready.
+    - Can be used 'out of the box', as;
+    - it included an Ansible recipe you can use right away on your public cloud infrastructure.
+    - Has a neatly, customizable,  pythonic content validation rule engine.
+    - Exploits Python's dynamic nature.
+    - Uses Python3.5 and above.
+
+
+laten (Verb)
+
+    - (copulative) to leave, to cause to remain in the same position or state
+        - Ze lieten het zo.
+    - (auxiliary, with object) to leave, to allow to remain/continue to
+        - Laat dat daar maar liggen.
+    - Just leave it lying there. (auxiliary, with object) to let, to allow to
+        - Ze lieten hem gaan.
+
+Laten is a very simpe web site monitor that uses Celery for distributing workload across nodes, MongoDB for flexible logging
+and relies on systemd to become a daemon service.
+
+Laten will take a list of urls and content validation rules, defined in a yaml file, load it into its MongoDB persistant storage,
+and start periodically sample the list of URLs and matching content validation rules accumulating results in MongoDB for easy 
+retrival, map-reduce, analytics, statistics and other delights.
+
+
+Install:
+
+
+git clone https://github.com/sivang/laten.git
+
+Then, use ansible to install to a server:
+
+ansible-playbook laten/laten/deployment/laten-server.yaml --user=ubuntu --extra-vars "ansible_sudo_pass=$PASSWORD" 
+
+
+To configure, either use a mongodb gui client and navigate to the CONFIGURATIONS database (self explantory) or:
+
+C{{
+sudo su - celery 
+. laten-venv/bin/activate
+(laten-venv) celery@ip-172-31-16-94:~$ ipython
+Python 3.5.2 (default, Nov 23 2017, 16:37:01) 
+Type 'copyright', 'credits' or 'license' for more information
+IPython 6.3.1 -- An enhanced Interactive Python. Type '?' for help.
+
+In [1]: from laten.configregistry import Configuration
+
+In [2]: c = Configuration()
+
+In [4]: c.config
+Out[4]: 
+{'DEFAULT_RULESET': [[None]],
+    'REMOTE_DEBUG': False,
+    'SAMPLE_INTERVAL': 5,
+    'TASK_TIMEOUT': 1200,
+    'URLS_REGISTRY_PATH': '/home/ubuntu/laten/urls.yaml',
+    '_id': ObjectId('5b807a7eb14877445504eef7')}
+
+In [5]: c.sample_interval = 3
+
+In [6]: c.save()
+}
+
+Then exit IPython, and restart Laten:
+sudo systemctl restart celery.service 
+
+And that's it, you can now either check logs for progress or the MongoDB processing.results collection for perodic URL sample results.
+
+ (laten-venv) $ tail -f log/celery.service.log
+
+MongoDB:
+
+(ten-venv) celery@ip-172-31-16-94:~$ mongo
+MongoDB shell version: 2.6.10
+connecting to: test
+&gt; use processing
+switched to db processing
+&gt; db.results.find()
+
+}}</pre>
+      </div>
+
+      <div id="splitTables">
+        <table class="children sortable" id="id1">
+  
+  <tr class="module">
+    
+    <td>Module</td>
+    <td><a href="laten.celeryconfig.html" data-type="Module" class="code">celeryconfig</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="module">
+    
+    <td>Module</td>
+    <td><a href="laten.configregistry.html" data-type="Module" class="code">configregistry</a></td>
+    <td><span>" This modules holds manages persistent configuration and related 
+settings for Laten.</span></td>
+  </tr><tr class="module">
+    
+    <td>Module</td>
+    <td><a href="laten.engine.html" data-type="Module" class="code">engine</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="module">
+    
+    <td>Module</td>
+    <td><a href="laten.tasks.html" data-type="Module" class="code">tasks</a></td>
+    <td><span class="undocumented">No module docstring; 3/3 functions documented</span></td>
+  </tr><tr class="module">
+    
+    <td>Module</td>
+    <td><a href="laten.utils.html" data-type="Module" class="code">utils</a></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr>
+</table>
+        
+
+          
+      </div>
+
+      <div id="childList">
+
+        
+
+      </div>
+      <address>
+        <a href="index.html">API Documentation</a> for laten, generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a> at 2018-08-29 05:06:44.
+      </address>
+
+    </div>
+
+    <script type="text/javascript" src="pydoctor.js"></script>
+
+  </body>
+</html>

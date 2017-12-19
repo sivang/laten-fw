@@ -1,0 +1,114 @@
+---
+- name: Laten Service Setup
+  hosts: laten-servers
+  become: true
+
+  tasks:
+  - name: Install RabbitMQ
+    apt:
+      name: rabbitmq-server
+      update_cache: yes
+
+  - name: Enable RabbitMQ management plugin
+    rabbitmq_plugin:
+      names: rabbitmq_management
+      state: enabled
+
+  - name: Install MongoDB
+    apt:
+      name: mongodb
+      update_cache: yes
+
+  - name: MongoDB custom config for Laten (ensure jouranling disabled)
+    template:
+      src: mongodb.conf
+      dest: /etc/mongodb.conf
+
+  - name: reload mongodb config
+    systemd:
+      state: restarted
+      daemon_reload: yes
+      name: mongodb
+
+  - name: Ensure virtualenv is installed
+    apt:
+      name: python3-venv
+      update_cache: yes
+
+  - name: Ensure RabbitMQ Service
+    service:
+     name: rabbitmq-server
+     state: started
+
+  - name: Ensure MongoDB Service
+    service:
+     name: mongodb
+     state: started
+
+  - name: systemd celery service install
+    template:
+      src: celery.service
+      dest: /etc/systemd/system/celery.service
+
+  - name: flower systemd service install
+    template:
+      src: flower.service
+      dest: /etc/systemd/system/flower.service
+
+  - name: create group for the celery user
+    group:
+      name: celery
+      state: present
+
+  - name: create user for celery
+    user:
+      name: celery
+      groups:
+        - celery
+      state: present
+      shell: /bin/bash
+      system: yes
+      createhome: yes
+
+  - name: create virtualenv for Python deps
+    become: yes
+    become_user: celery
+    command: python3 -m venv /home/celery/laten-venv
+
+
+  - name: copy requirements
+    template:
+      src: laten-requirements.txt
+      dest: /home/celery/laten-requirements.txt
+
+  - pip:
+      requirements: /home/celery/laten-requirements.txt
+      virtualenv: /home/celery/laten-venv
+  
+  - pip:
+      name: git+https://github.com/sivang/laten
+      virtualenv: /home/celery/laten-venv
+
+
+  - file:
+      path: /home/celery/log
+      state: directory
+      owner: celery
+      group: celery
+
+  - file:
+      path: /home/celery/run
+      state: directory
+      owner: celery
+      group: celery
+
+  - name: Restart Celery
+    systemd:
+      state: started
+      name: celery
+
+  - name: Restart Flower
+    systemd:
+      state: started
+      name: flower
+

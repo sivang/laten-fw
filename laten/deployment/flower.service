@@ -1,0 +1,15 @@
+[Unit]
+Description=Flower Service
+After=network.target
+
+[Service]
+Type=simple
+User=celery
+Group=celery
+WorkingDirectory=/home/celery
+ExecStart=/home/celery/laten-venv/bin/python3 /home/celery/laten-venv/bin/flower --log_file_prefix=/home/celery/log/flower.log -A laten.tasks -E --broker-api=http://guest:*@localhost:15672/api/
+
+
+[Install]
+WantedBy=multi-user.target
+
