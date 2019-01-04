@@ -129,7 +129,6 @@ def check_urls(self):
 
     job_document = {'url_batch' : url_batch,
                 'batch' : True, 
-                'default_ruleset' : config.default_ruleset,
                 'timestamp'  : datetime.now()}
 
     urls_to_test = client.processing.urls_to_test

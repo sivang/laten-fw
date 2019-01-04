@@ -43,7 +43,7 @@ class EngineApi(object):
 
         Recieves:
             buff - byte stream to search in
-            content - byte string of desire content
+            tofind - byte string of desire content
         """
         result = True
         try:
