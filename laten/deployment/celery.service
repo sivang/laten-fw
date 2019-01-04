@@ -8,7 +8,7 @@ User=celery
 Group=celery
 WorkingDirectory=/home/celery
 ExecStart=/home/celery/laten-venv/bin/celery -A laten.tasks worker -B -E --logfile="/home/celery/log/%n.log" --pidfile="/home/celery/run/%n.pid" --loglevel=info
-ExecStop=/home/celery/laten-venv/bin/celery stopwait --pidfile=/home/celery/run/%n.pid
+ExecStop=/home/celery/laten-venv/bin/celery multi stopwait worker --pidfile=/home/celery/run/%n.pid
 
 [Install]
 WantedBy=multi-user.target

@@ -10,7 +10,7 @@ CONFIGURATION = {
     # in minutes.
     'SAMPLE_INTERVAL' : 5,
     'REMOTE_DEBUG' : False,
-    'URLS_REGISTRY_PATH' : "/home/ubuntu/laten/urls.yaml",
+    'URLS_REGISTRY_PATH' : "/home/ubuntu/laten-fw/laten/urls.yaml",
     'TASK_TIMEOUT' : 1200,
 }
 

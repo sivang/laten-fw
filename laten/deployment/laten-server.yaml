@@ -1,7 +1,8 @@
 ---
 - name: Laten Service Setup
-  hosts: laten-servers
+  hosts: 127.0.0.1
   become: true
+  become_method: sudo
 
   tasks:
   - name: Install RabbitMQ
@@ -86,7 +87,7 @@
       virtualenv: /home/celery/laten-venv
   
   - pip:
-      name: git+https://github.com/sivang/laten
+      name: git+https://github.com/sivang/laten-fw
       virtualenv: /home/celery/laten-venv
 
 
