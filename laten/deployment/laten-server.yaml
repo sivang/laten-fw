@@ -107,9 +107,11 @@
     systemd:
       state: started
       name: celery
+      enabled: yes
 
   - name: Restart Flower
     systemd:
       state: started
       name: flower
+      enabled: yes
 
