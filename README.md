@@ -1,4 +1,4 @@
-Laten Micro Web Monitor Copyright (c) 2018-2019 Sivan Grünberg <sivan@vitakka.co>
+Laten Micro Web Monitor Copyright (c) 2018-2020 Sivan Grünberg <sivan@vitakka.co>
 
 Laten is released under the MIT license.
 
